@@ -39,4 +39,3 @@ Why? Simple, R is part of me, I'm **RRRodrigo**. Do you want more? Promoting `R`
 ## How to read this piece of art
 
 Folders are very descriptive, don't be affraid about exploring.
-
