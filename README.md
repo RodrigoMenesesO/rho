@@ -33,7 +33,7 @@ Why? Simple, R is part of me, I'm **RRRodrigo**. Do you want more? Promoting `R`
 * Advices
 * Premade useful functions
 * Excercises
-* Responses to my patreons
+* Responses to my patrons
 * A lot of fun
 
 ## How to read this piece of art
