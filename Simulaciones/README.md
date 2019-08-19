@@ -1,6 +1,6 @@
 *Simulations commented in spanish*
 
-Here you can find functions to simulate some concepts in the following topics:
+Here you can find functions to simulate some concepts in the following topics.
 
 ## Stochastic processes:
 
