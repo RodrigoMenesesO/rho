@@ -5,3 +5,7 @@ Here you can find apps grouped by the following topics.
 ## Miscellaneous:
 
 * Simple vehicle selector
+
+## Statistics 
+
+* Interactive simulation of GBM
