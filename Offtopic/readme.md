@@ -1,6 +1,6 @@
 # Offtopic topics!
 
-## Some miscelaneous scripts I've made not related with statistics or actuarial topics
+## Some miscellaneous scripts I've made which are not related with statistics or actuarial topics
 
 ### Scripts:
 
