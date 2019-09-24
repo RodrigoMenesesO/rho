@@ -14,71 +14,71 @@ library(wordcloud)
 require(rowr)
 library(RColorBrewer)
 
-################## PAR罬ETROS ##############################################################
+################## PAR脕METROS ##############################################################
 
 web.page<-c('https://www.ittux.edu.mx/index.php/carreras-ittux/licenciatura-administracion')
 
 
-titulo.oferta<-c("licenciatura","curso","maestria","maestr韆","doctorado","seminario","diplomado",
-                 "certificacion","certificaci髇","programa")
+titulo.oferta<-c("licenciatura","curso","maestria","maestr铆a","doctorado","seminario","diplomado",
+                 "certificacion","certificaci贸n","programa")
 tipo.oferta<-web.page
-web.site<-c("sitio web","web","p醙ina web")
-encargado<-c("titular","encargado","coordinador","coordinaci髇","coordinacion","reponsable","maestro",
+web.site<-c("sitio web","web","p谩gina web")
+encargado<-c("titular","encargado","coordinador","coordinaci贸n","coordinacion","reponsable","maestro",
              "imparte")
 vigencia<-c("vigencia")
 direccion<-c("telefono","contacto",'direccion',"estado","cp")
 institucion<-c("escuela","instituto","institucion","facultad","centro","colegio")
-tipo.institucion<-c("publica","p鷅lica","privada")
+tipo.institucion<-c("publica","p煤blica","privada")
 adscripcion<-c("departamento")
 #
 socios<-c("socios","colaboradores","colaborador","financiador","financiadora","patrocinio",
           "patrocinador")
-web.instituci髇<-c("sitio web","web","p醙ina web")
-nivel<-c("pregrado","licenciatura","tecnico","t閏nico","actualizaci髇","actualizacion",
-         "educaci髇 continua","educacion continua","diplomado")
-duracion<-c("duracion","duraci髇","periodo","a駉s","meses","mes","a駉")
-objetivo<-c("objetivo","plan","mision","visi髇","vision","misi髇")
-pob.objetivo<-c("perfil","poblaci髇","poblacion","ingreso")
+web.instituci贸n<-c("sitio web","web","p谩gina web")
+nivel<-c("pregrado","licenciatura","tecnico","t茅cnico","actualizaci贸n","actualizacion",
+         "educaci贸n continua","educacion continua","diplomado")
+duracion<-c("duracion","duraci贸n","periodo","a帽os","meses","mes","a帽o")
+objetivo<-c("objetivo","plan","mision","visi贸n","vision","misi贸n")
+pob.objetivo<-c("perfil","poblaci贸n","poblacion","ingreso")
 c.egreso<-c("egreso","perfil","conocimientos","adquiridos")
 h.egreso<-c("egreso","habilidades","destrezas")
 campo.t<-c("campo","trabajo","laboral","area")
-reconocimiento<-c("reconocimiento","diploma","certificaci髇","certificacion","titulo",
-                  "t韙ulo","grado","constancia","participaci髇","participacion")
+reconocimiento<-c("reconocimiento","diploma","certificaci贸n","certificacion","titulo",
+                  "t铆tulo","grado","constancia","participaci贸n","participacion")
 #
-unidad.entrenamiento<-c("horas","dedicadas","dedicaci髇","cr閐itos","creditos",
+unidad.entrenamiento<-c("horas","dedicadas","dedicaci贸n","cr茅ditos","creditos",
                         "entrenamiento")
 numero.entrenamiento<-c("numero","creditos")
-fechas<-c("calendario","periodicidad","frecuencia","inicio","finalizaci髇","finalizacion")
+fechas<-c("calendario","periodicidad","frecuencia","inicio","finalizaci贸n","finalizacion")
 temporalidad<-c("tiempo","completo","parcial","fin de semana","nocturno","vespertino",
                 "matutino")
 idioma<-c("idioma","idiomas","lengua","lenguas","dialecto","dialectos")
-admision<-c("criterios","admisi髇","admision","acceso","nuevo ingreso")
-examen<-c("examen","admisi髇","admision","cupo","limite","edad")
+admision<-c("criterios","admisi贸n","admision","acceso","nuevo ingreso")
+examen<-c("examen","admisi贸n","admision","cupo","limite","edad")
 costos<-c("costo","pago","mensualidad","anualidad","pago","pagos","financiamiento")
 facilidades<-c("becas","financiamiento","apoyo","subsidio")
-politicas.ingreso<-c("discapacidad","minoria","minor韆","etnias","bajos recursos",
-                     "indigenas","ind韌enas")
+politicas.ingreso<-c("discapacidad","minoria","minor铆a","etnias","bajos recursos",
+                     "indigenas","ind铆genas")
 #
 tipo.programa<-c("presencial","semipresencial","virtual","mixto")
 plataforma<-c("plataforma","canal","medio")
-asignaturas<-c("teoria","conceptos","practica","metodolog韆","metodologia","an醠isis",
-               "analisis","negociaci髇","negociacion","solucion de problemas")
+asignaturas<-c("teoria","conceptos","practica","metodolog铆a","metodologia","an谩lisis",
+               "analisis","negociaci贸n","negociacion","solucion de problemas")
 practica.final<-c("practica","final","proyecto","exposicion","tesis","tesina")
 evaluacion<-c("evaluacion","certificado")
-innovacion<-c("innovacion","innovaci髇","vanguardia","novedoso","nuevo")
+innovacion<-c("innovacion","innovaci贸n","vanguardia","novedoso","nuevo")
 suster<-c("desarrollo sustentable","desarrollo rural","sustentabilidad","sustentable",
           "identidad cultural","identidad")
-m1<-c("modulo 1","parte 1","secci髇 1","seccion 1")
-m2<-c("modulo 2","parte 2","secci髇 2","seccion 2")
-m3<-c("modulo 3","parte 3","secci髇 3","seccion 3")
-m4<-c("modulo 4","parte 4","secci髇 4","seccion 4")
-plan<-c("plan de estudios","curricula","curr韈ula")
-estructura.plan<-c("plan de estudios particular","ret韈ula","reticula")
-certificacion<-c("certificacion externa","certificaci髇 externa","certificado extra",
+m1<-c("modulo 1","parte 1","secci贸n 1","seccion 1")
+m2<-c("modulo 2","parte 2","secci贸n 2","seccion 2")
+m3<-c("modulo 3","parte 3","secci贸n 3","seccion 3")
+m4<-c("modulo 4","parte 4","secci贸n 4","seccion 4")
+plan<-c("plan de estudios","curricula","curr铆cula")
+estructura.plan<-c("plan de estudios particular","ret铆cula","reticula")
+certificacion<-c("certificacion externa","certificaci贸n externa","certificado extra",
                  "extras","extra")
-g.innovacion<-c("innovacion","innovaci髇")
+g.innovacion<-c("innovacion","innovaci贸n")
 observaciones<-c("observaciones")
-buenas.practicas<-c("buenas practicas","buenas pr醕ticas","entrevista","profundizar",
+buenas.practicas<-c("buenas practicas","buenas pr谩cticas","entrevista","profundizar",
                     "profundice")
 
 
@@ -114,7 +114,7 @@ toSpace <- content_transformer(function (x , pattern ) gsub(pattern, " ", x))
 
 #########################################################################################
 
-############# DESCOMPOSICI覰 DE LA P罣INA WEB ###########################################
+############# DESCOMPOSICI脫N DE LA P脕GINA WEB ###########################################
 
 ################# h1
 
@@ -361,8 +361,8 @@ for (i in 1:length(socios)) {
 a10<-resultado
 
 resultado<-c()
-for (i in 1:length(web.instituci髇)) {
-  resultado1<-as.character(tdiv[(grep(web.instituci髇[i],strsplit(tdiv,"loquesea")))])
+for (i in 1:length(web.instituci贸n)) {
+  resultado1<-as.character(tdiv[(grep(web.instituci贸n[i],strsplit(tdiv,"loquesea")))])
   resultado1<-resultado1[which(nchar(as.character(resultado1))<500)]
   resultado1<-unique(resultado1)
   resultado<-c(resultado,resultado1)
@@ -762,7 +762,7 @@ anexo<-cbind.fill(a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,
                   a41,a42,a43,a44,a45,a46,fill = NA)
 
 colnames(anexo)<-c("Titulo oferta","Tipo oferta","Web site","Encargado/coordinador",
-                   "Vigencia","Nombre instituci髇","Tipo de instituci髇",
+                   "Vigencia","Nombre instituci贸n","Tipo de instituci贸n",
                    "Naturaleza institucion","Entidad adscrita","Eventuales socios",
                    "Website institucion","Nivel","Duracion","Objetivo del programa",
                    "Poblacio a quien va dirigido","Perfil de egreso:conocimiento",
@@ -774,7 +774,7 @@ colnames(anexo)<-c("Titulo oferta","Tipo oferta","Web site","Encargado/coordinad
                    "Practica final","Evaluacion aprobacion","Aspectos innovadores metodos",
                    "Contenidos relativos a desarrolo territorial","Modulo1","Modulo2",
                    "Modulo3","Modulo4","Plan de estudios","Plan de modulos particulares",
-                   "Certificacion extra","Innovaci髇","Observaciones",
+                   "Certificacion extra","Innovaci贸n","Observaciones",
                    "Propuesta seguimiento")
 
 write.csv(anexo,file = "Relleno_para_anexo.csv",row.names = FALSE)
