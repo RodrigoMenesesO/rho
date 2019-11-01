@@ -4,4 +4,6 @@
 
 * Logistic: Review and example of a logistic regression.
 
-* 
+* Neural Networks: A simple example of a MLP.
+
+* Tree Models: Assembly models based on trees.
