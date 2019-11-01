@@ -13,7 +13,7 @@ Making your `R` experience better.
 * Sharing my experience (See **About me**)
 * Making you feel safe about tryin' `R` (You will love it)
 
-Why? Simple, R is part of me, I'm **RRRodrigo**. Do you want more? Promoting `R` is the best way *to say thanks*  to a lot of statisticians and programmers who has contributed with their time (their lives) to make a GNU tool for you and me! Do you want something even more deep? Sure Sir, **the space**.
+Why? - Simple, R is part of me, I'm **RRRodrigo**. Do you want more? - Promoting `R` is the best way *to say thanks*  to a lot of statisticians and programmers who has contributed with their time (their lives) to make a GNU tool for you and me! Do you want something even more deep? - Sure Sir, **the space**.
 
 ## Topics
 
@@ -30,11 +30,12 @@ Why? Simple, R is part of me, I'm **RRRodrigo**. Do you want more? Promoting `R`
 
 ## What you will find?
 
-* Advices
-* Premade useful functions
-* Excercises
-* Responses to my patrons
-* A lot of fun
+* Notes
+* Models/Algorithms
+* Connections
+* Examples
+* Useful tools
+* And a lot of fun!
 
 ## How to read this piece of art
 
