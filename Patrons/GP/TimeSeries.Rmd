@@ -1,0 +1,189 @@
+---
+title: | 
+ | Time Series Analysis
+ | Border Crossing
+author: "Rodrigo Meneses Orellana"
+date: "27 de octubre de 2019"
+output: pdf_document
+header-includes: 
+ \usepackage{float}
+ \usepackage{longtable}
+ \usepackage{xcolor}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+list.of.packages <- c("ggplot2","kableExtra","gridExtra","forecast","tseries","ggfortify")
+new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
+if(length(new.packages)) install.packages(new.packages)
+require(ggplot2)
+require(kableExtra)
+require(gridExtra)
+library(forecast)
+library(tseries)
+library(ggfortify)
+
+datos<-read.csv(choose.files(caption = "Seleccione Border Crossing Data"))
+```
+
+```{r,echo=0,message=0}
+# Limpieza y transformación de los datos: es necesario desagregar las fechas y las posiciones geográficas.
+
+df1<-strsplit(as.character(datos$Date),"/")
+meses<-c()
+for(i in 1:length(df1)){
+  meses[i]<-df1[[i]][1]
+}
+
+meses.abb<-month.abb[as.numeric(meses)]
+
+years<-c()
+years2<-c()
+for(i in 1:length(df1)){
+  years[i]<-strsplit(df1[[i]][3]," ")
+  years2[i]<-years[[i]][1]
+}
+
+# Los datos observados corresponden a información mensual desde 1996 hasta marzo del 2019.
+
+posiciones<-strsplit(substr(datos$Location,8,nchar(as.character(datos$Location))-1)," ")
+
+long<-c()
+lat<-c()
+for(i in 1:length(posiciones)){
+  long[i]<-posiciones[[i]][1]
+  lat[i]<-posiciones[[i]][2]
+}
+
+datos2<-cbind(datos[,c(1,2,3,4,6,7)],month=meses.abb,year=as.numeric(years2),long,lat)
+```
+
+
+# Introduction
+
+An study of the behavior of border crossing data since January 1996 until March 2019 based on time series.
+
+# Data review
+
+**Taken from GP databases.**
+
+Information related with the border crossing between US-Mexico and US-Canada grouped by the most common ways.
+
+In order to present a not exhaustive study based on time series, currently unnecessary information will be suppressed, leading to the next variables (the study could be expanded).
+
+Preview:
+
+```{r,fig.align='c',fig.pos = 'H', out.width='100%',echo=0}
+kable(head(datos2[,c("year","month","Measure","Value")]), format = "latex", 
+      caption = "Database sample",
+      booktabs=TRUE, longtable=TRUE) %>%
+  kable_styling(latex_options = "HOLD_position")
+```
+
+Data will be aggregated by year and month in order to form the time series. Aggregation leads to a stacked structure where each rectangle is an aggregation by Year/Month and Measure.
+
+```{r,fig.align='c',fig.pos = 'H', out.width='100%',echo=0,fig.cap="Data aggregation"}
+agg1<-aggregate(datos2$Value,by=list(datos2$year,datos2$month,datos2$Measure),sum)
+colnames(agg1)<-c("year","month","Measure","Value")
+p1<-ggplot(agg1)+geom_col(aes(x=year,y=Value,fill=Measure))+theme_bw()+labs(x="Year",y="By Year")+ theme(legend.position = "top") 
+p2<-ggplot(agg1)+geom_col(aes(x=month,y=Value,fill=Measure))+theme_bw()+labs(x="Year",y="By Month")+ theme(legend.position = "none") 
+
+grid.arrange(p1,p2)
+```
+
+# Constructing and analyzing the Time Series
+
+Aggregation by month and year leads to the time series data needed.
+
+Then, it's easy to construct the time series.
+
+```{r,fig.align='c',fig.pos = 'H', out.width='100%',echo=0}
+datosagg<-aggregate(datos2$Value,by=list(datos2$year,datos2$month),sum)
+colnames(datosagg)<-c("year","month","value")
+
+datats<-ts(datosagg[,c("year","month","value")],start = c(1996,1),frequency = 12)
+
+kable(head(datats), format = "latex", 
+      caption = "Time series data sample",
+      booktabs=TRUE, longtable=TRUE) %>%
+  kable_styling(latex_options = "HOLD_position")
+
+datats<-datats[,-c(1,2)]
+```
+
+Then, here's a visualization of the time series.
+
+```{r,fig.align='c',fig.pos = 'H', out.width='100%',echo=0,fig.cap="Time series"}
+autoplot(datats,ts.colour = "blue",ts.linetype = "dashed")+theme_bw()
+```
+
+The time series seems to be stationary about the mean and variance. As a visual prove the autocorrelation function will be plotted.
+
+```{r,fig.align='c',fig.pos = 'H', out.width='100%',echo=0,fig.cap="Autocorrelation function"}
+autoplot(acf(datats, plot = FALSE))+theme_bw()
+```
+
+Looking at the autocorrelation function is possible to say that the time series is stationary.
+
+Next, each component of the time series will be studied.
+
+```{r,fig.align='c',fig.pos = 'H', out.width='100%',echo=0,fig.cap="Component disaggregation"}
+autoplot(stl(datats, s.window = "periodic"), ts.colour = "blue")+theme_bw()
+```
+
+Given the component analysis, stationarity is fairly acceptable. Time series could be modeled by an ARIMA model. It's necessary to use a test to prove the stationarity. Then, ADF and KPSS tests will be applied where the null hypothesis is: **time series is non-stationary**.
+
+```{r,fig.align='c',fig.pos = 'H', out.width='100%',echo=0,message=0,warning=0}
+adf<-adf.test(datats)
+kpss<-kpss.test(datats)
+a<-data.frame(ADF=adf$p.value,KPSS=kpss$p.value)
+
+kable(a, format = "latex", 
+      caption = "ADF and KPSS tests for non-stationarity",
+      booktabs=TRUE, longtable=TRUE) %>%
+  kable_styling(latex_options = "HOLD_position")
+
+```
+
+Then, non-stationarity is rejected, so an ARIMA model will be fitted.
+
+```{r,echo=0,message=0}
+arima1<-auto.arima(datats, stepwise = FALSE, approximation = FALSE)
+```
+
+Residuals need to be independent (just white noise) and not to be normally distributed, therefore, is necessary to apply some tests.
+
+```{r,fig.align='c',fig.pos = 'H', out.width='100%',echo=0}
+bp<-Box.test(arima1$residuals)
+lb<-Box.test(arima1$residuals,type = "Ljung-Box")
+
+b<-data.frame(`Box-Pierce`=bp$p.value,`Ljung-Box`=lb$p.value)
+
+kable(b, format = "latex", 
+      caption = "Residual independence tests",
+      booktabs=TRUE, longtable=TRUE) %>%
+  kable_styling(latex_options = "HOLD_position")
+```
+
+Then, **residuals aren't correlated**.
+
+```{r,fig.align='c',fig.pos = 'H', out.width='100%',echo=0}
+jb<-jarque.bera.test(arima1$residuals)
+sw<-shapiro.test(arima1$residuals)
+
+c<-data.frame(`Jarque-Bera`=jb$p.value,`Shapiro-Wilk`=sw$p.value)
+
+kable(c, format = "latex", 
+      caption = "Normal distribution tests for residuals",
+      booktabs=TRUE, longtable=TRUE) %>%
+  kable_styling(latex_options = "HOLD_position")
+```
+
+Then, **residuals aren't normally distributed**.
+
+Finally, the model is ready to be deployed, some predictions will be made.
+
+```{r,fig.align='c',fig.pos = 'H', out.width='100%',echo=0,fig.cap="Forecasting"}
+forecast1<-forecast(arima1,level = c(95),h=50)
+autoplot(forecast1)+theme_bw()
+```
